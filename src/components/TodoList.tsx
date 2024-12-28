@@ -11,12 +11,12 @@ export type TaskType = {
 type PropsType = {
     title:string;
     tasks:Array<TaskType>;
-    id:string
+    id:string;
     filter:FilterType;
-    removeTask: (id:string) => void;
-    setFilterTask:(filter:FilterType, id:string) => void;
-    addTask:(title:string) => void
-    toggleCheckboxTask: (id:string) => void
+    removeTask: (id:string, todoListId:string) => void;
+    setFilterTask:(filter:FilterType, todoListId: string) => void;
+    addTask:(title:string, todoListId: string) => void;
+    toggleCheckboxTask: (id:string, todoListId:string) => void;
 }
 
 const TodoList = (props:PropsType) => {
@@ -29,13 +29,13 @@ const TodoList = (props:PropsType) => {
     }
     const onKeyPressHandler = (e:KeyboardEvent<HTMLInputElement>) => {
         if(e.key === 'Enter'){
-            props.addTask(valueInput)
+            props.addTask(valueInput, props.id)
             setValueInput('')
         }
     }
     const addNewTask = () => {
         if(valueInput){
-            props.addTask(valueInput)
+            props.addTask(valueInput, props.id)
             setValueInput('')
         }else{
             setErrorTextInput(true)
@@ -62,10 +62,10 @@ const TodoList = (props:PropsType) => {
                 <ul className='item_list'>
                     {props.tasks.map(task => {
                         const removeCurrentTask = () => {
-                             props.removeTask(task.id)
+                             props.removeTask(task.id, props.id)
                         }
                         const onHandleTask = () => {
-                            props.toggleCheckboxTask(task.id)
+                            props.toggleCheckboxTask(task.id, props.id)
                         }
                         return <li key={task.id}  className={task.isDone ? 'active_task' : ''}>
                             <input type="checkbox" onChange={onHandleTask} checked={task.isDone}/>
