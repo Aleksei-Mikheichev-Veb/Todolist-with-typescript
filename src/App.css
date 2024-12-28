@@ -2,3 +2,22 @@
   display: flex;
   margin: 100px;
 }
+
+.item_list{
+  list-style: none;
+}
+
+.active_task{
+  background: #b9b9b9;
+}
+.active_button{
+  background: #fe5900;
+}
+.error{
+  color:red;
+  font-weight: bold;
+}
+.error_input{
+  border:1px solid red;
+  outline: red;
+}
