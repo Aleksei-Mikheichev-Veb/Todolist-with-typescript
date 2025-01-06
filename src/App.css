@@ -1,13 +1,19 @@
 .App {
-  display: flex;
+
   margin: 100px;
 }
-
+.title{
+  display: flex;
+  align-items: center;
+}
+.todo_lists{
+  display: flex;
+}
 .item_list{
   list-style: none;
 }
 
-.active_task{
+.complete_task{
   background: #b9b9b9;
 }
 .active_button{
