@@ -5,7 +5,7 @@ import {v1} from "uuid";
 import {AddItemForm} from "./components/AddItemForm";
 
 export type FilterType = 'all' | 'active' | 'completed';
-type TodoListType = {
+export type TodoListType = {
     id: string;
     title: string;
     filter: FilterType
@@ -40,8 +40,9 @@ function App() {
         [todoList3]: [
             {id: v1(), title: 'Вынести добавление тасок отдельно', isDone: true},
             {id: v1(), title: 'Форма добавления todolist ', isDone: true},
-            {id: v1(), title: 'чтоб в инпуте был текс при даблклике', isDone: false},
+            {id: v1(), title: 'чтоб в инпуте был текс при даблклике', isDone: true},
             {id: v1(), title: 'попробовать material UI', isDone: false},
+            {id: v1(), title: 'написать тесты и сделать reducer ', isDone: false},
         ]
     })
 
@@ -65,6 +66,7 @@ function App() {
         setTodoLists(newTodoLists)
     }
 
+
     const addTask = (title: string, todoListId:string) => {
         const newTask = {id: v1(), title: title, isDone: false}
         const newTodoList = [...tasksInTodoList[todoListId],newTask]
@@ -80,7 +82,6 @@ function App() {
         );
         setTasksInTodoList({...tasksInTodoList, [todoListId]: newTasks});
     };
-
     const changeTask = (newValue:string, idTodoList:string, idTask:string) => {
         const newTasks = tasksInTodoList[idTodoList].map(task => (
             task.id == idTask ? {...task, title:newValue} : task

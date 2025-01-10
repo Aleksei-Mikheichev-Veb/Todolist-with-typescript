@@ -8,7 +8,7 @@ type PropsType = {
 
 const EditableValue = (props:PropsType) => {
     const [isSpan, setIsSpan] = useState(true)
-    const [inputValue, setInputValue] = useState('')
+    const [inputValue, setInputValue] = useState(props.text)
 
     const handleOnChange = (e:ChangeEvent<HTMLInputElement>) => {
         setInputValue(e.target.value)
@@ -19,13 +19,13 @@ const EditableValue = (props:PropsType) => {
     const onBlurHandlerToSpan = ( ) => {
         setIsSpan(true)
         props.changeTask(inputValue, props.id)
-        setInputValue('')
+        // setInputValue('')
     }
     const onKeyPressHandlerToSpan = ( e: KeyboardEvent<HTMLInputElement>) => {
         if(e.key === 'Enter'){
             setIsSpan(true)
             props.changeTask(inputValue, props.id)
-            setInputValue('')
+            // setInputValue('')
         }
     }
 
