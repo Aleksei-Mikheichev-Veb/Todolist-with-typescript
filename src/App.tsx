@@ -10,7 +10,7 @@ export type TodoListType = {
     title: string;
     filter: FilterType
 }
-type TaskInTodoListType = {
+export type TaskInTodoListType = {
     [key:string]: Array<TaskType>
 }
 
@@ -42,7 +42,9 @@ function App() {
             {id: v1(), title: 'Форма добавления todolist ', isDone: true},
             {id: v1(), title: 'чтоб в инпуте был текс при даблклике', isDone: true},
             {id: v1(), title: 'попробовать material UI', isDone: false},
-            {id: v1(), title: 'написать тесты и сделать reducer ', isDone: false},
+            {id: v1(), title: 'написать тесты и сделать reducer ', isDone: true},
+            {id: v1(), title: 'написать остальные функции вредусер ', isDone: false},
+            {id: v1(), title: 'добавить в удаление и добавление листа, чтобы удалял и там и там ', isDone: false},
         ]
     })
 
@@ -64,6 +66,12 @@ function App() {
             list.id == todoListId ? {...list, filter: filter} : list
         ))
         setTodoLists(newTodoLists)
+    }
+    const changeTodoListTitle = (newValue:string, idTodoList:string) => {
+        const newTodoLists = todoLists.map(todoList => {
+            return todoList.id == idTodoList ? {...todoList,title: newValue} : todoList
+        })
+        setTodoLists([...newTodoLists])
     }
 
 
@@ -88,12 +96,7 @@ function App() {
         ))
         setTasksInTodoList({...tasksInTodoList,[idTodoList]: newTasks})
     }
-    const changeTodoListTitle = (newValue:string, idTodoList:string) => {
-        const newTodoLists = todoLists.map(todoList => {
-            return todoList.id == idTodoList ? {...todoList,title: newValue} : todoList
-        })
-        setTodoLists([...newTodoLists])
-    }
+
     return (
         <div className="App">
             <AddItemForm addTask={addTodoList}/>
