@@ -1,8 +1,22 @@
-import React, {useState} from 'react';
+import React, {useReducer, useState} from 'react';
 import './App.css';
 import TodoList, {TaskType} from "./components/TodoList";
 import {v1} from "uuid";
 import {AddItemForm} from "./components/AddItemForm";
+import {
+    addTodoListAC,
+    changeFilterTodoListAC,
+    changeTitleTodoListAC,
+    removeTodoListAC,
+    todoListReducer
+} from "./state/todoListReducer";
+import {
+    addTaskAC,
+    changeTitleTaskAC,
+    removeTaskAC,
+    taskReducer,
+    toggleCheckboxTaskAC
+} from "./state/taskReducer";
 
 export type FilterType = 'all' | 'active' | 'completed';
 export type TodoListType = {
@@ -14,18 +28,18 @@ export type TaskInTodoListType = {
     [key:string]: Array<TaskType>
 }
 
-function App() {
+function AppWithReducer() {
     const todoList1 = v1()
     const todoList2 = v1()
     const todoList3 = v1()
-    const [todoLists, setTodoLists] = useState<Array<TodoListType>>([
+    const [todoLists, dispatchTodoListReducer] = useReducer(todoListReducer, [
         {id: todoList1, title: 'Study', filter: 'all'},
         {id: todoList2, title: 'Book', filter: 'active'},
         {id: todoList3, title: 'Мои таски', filter: 'all'},
     ]);
 
 
-    const [tasksInTodoList, setTasksInTodoList] = useState<TaskInTodoListType>({
+    const [tasksInTodoList, dispatchTaskReducer] = useReducer( taskReducer, {
         [todoList1]: [
             {id: v1(), title: 'HTML + CSS', isDone: true},
             {id: v1(), title: 'JS', isDone: true},
@@ -43,58 +57,44 @@ function App() {
             {id: v1(), title: 'чтоб в инпуте был текс при даблклике', isDone: true},
             {id: v1(), title: 'попробовать material UI', isDone: false},
             {id: v1(), title: 'написать тесты и сделать reducer ', isDone: true},
-            {id: v1(), title: 'написать остальные функции вредусер ', isDone: false},
-            {id: v1(), title: 'добавить в удаление и добавление листа, чтобы удалял и там и там ', isDone: false},
+            {id: v1(), title: 'написать остальные функции вредусер ', isDone: true},
+            {id: v1(), title: 'добавить в удаление и добавление листа, чтобы удалял и там и там ', isDone: true},
+            {id: v1(), title: 'сделать state на usereducer ', isDone: false},
+            {id: v1(), title: 'сделать state на redux  ', isDone: false},
+            {id: v1(), title: 'докомпозировать app. вынестип лишнее внутрь  ', isDone: false},
         ]
     })
 
     const addTodoList = (title:string) => {
-        const newTask:TodoListType = {id: v1(), title: title, filter: 'all'}
-
-        setTodoLists([ ...todoLists,newTask ])
-        setTasksInTodoList({...tasksInTodoList, [newTask.id]: []})
+        const action = addTodoListAC(title)
+        dispatchTodoListReducer(action)
+        dispatchTaskReducer(action)
     }
     const removeTodoList = (idTodoList:string) => {
-        const newTodoLists = todoLists.filter(list => list.id !== idTodoList)
-        setTodoLists(newTodoLists)
-        const newTasksInTodoLists = {...tasksInTodoList}
-        delete tasksInTodoList[idTodoList]
-        setTasksInTodoList(newTasksInTodoLists)
+        const action = removeTodoListAC(idTodoList)
+        dispatchTaskReducer(action)
+        dispatchTodoListReducer(action)
     }
+
     const changeFilterTasks = (filter: FilterType, todoListId: string) => {
-        let newTodoLists = todoLists.map(list => (
-            list.id == todoListId ? {...list, filter: filter} : list
-        ))
-        setTodoLists(newTodoLists)
+        dispatchTodoListReducer(changeFilterTodoListAC(todoListId, filter))
     }
     const changeTodoListTitle = (newValue:string, idTodoList:string) => {
-        const newTodoLists = todoLists.map(todoList => {
-            return todoList.id == idTodoList ? {...todoList,title: newValue} : todoList
-        })
-        setTodoLists([...newTodoLists])
+        dispatchTodoListReducer(changeTitleTodoListAC(newValue,idTodoList ))
     }
 
 
     const addTask = (title: string, todoListId:string) => {
-        const newTask = {id: v1(), title: title, isDone: false}
-        const newTodoList = [...tasksInTodoList[todoListId],newTask]
-        setTasksInTodoList({...tasksInTodoList, [todoListId]:newTodoList })
+        dispatchTaskReducer(addTaskAC(title, todoListId))
     }
     const removeTask = (taskId: string, todoListId:string ) => {
-        const resultTasks = tasksInTodoList[todoListId].filter(task => task.id !== taskId)
-        setTasksInTodoList({...tasksInTodoList, [todoListId]:resultTasks })
+        dispatchTaskReducer(removeTaskAC(taskId, todoListId))
     }
     const toggleCheckboxTask = (taskId: string, todoListId:string) => {
-        const newTasks = tasksInTodoList[todoListId].map(task =>
-            task.id === taskId ? {...task, isDone: !task.isDone} : task
-        );
-        setTasksInTodoList({...tasksInTodoList, [todoListId]: newTasks});
+        dispatchTaskReducer(toggleCheckboxTaskAC(taskId, todoListId))
     };
     const changeTask = (newValue:string, idTodoList:string, idTask:string) => {
-        const newTasks = tasksInTodoList[idTodoList].map(task => (
-            task.id == idTask ? {...task, title:newValue} : task
-        ))
-        setTasksInTodoList({...tasksInTodoList,[idTodoList]: newTasks})
+        dispatchTaskReducer(changeTitleTaskAC(newValue, idTodoList, idTask))
     }
 
     return (
@@ -130,5 +130,4 @@ function App() {
     );
 }
 
-export default App;
-
+export default AppWithReducer;

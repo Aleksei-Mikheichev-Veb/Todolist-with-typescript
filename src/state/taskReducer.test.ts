@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {v1} from "uuid";
-import {addTaskAC, changeTitleTask, removeTaskAC, taskReducer, toggleCheckboxTask} from "./taskReducer";
+import {addTaskAC, changeTitleTaskAC, removeTaskAC, taskReducer, toggleCheckboxTaskAC} from "./taskReducer";
 import {addTodoListAC, removeTodoListAC} from "./todoListReducer";
 
 test('task reducer should add one task', () => {
@@ -100,7 +100,7 @@ test('task reducer should change value of checkbox of one task', () => {
         ]
     }
 
-    const endState = taskReducer(startState, toggleCheckboxTask('2', todoList2 ))
+    const endState = taskReducer(startState, toggleCheckboxTaskAC('2', todoList2 ))
 
     expect(endState[todoList2][1].isDone).toBeTruthy()
     expect(endState[todoList1][1].isDone).toBeTruthy()
@@ -132,7 +132,7 @@ test('task reducer should change title of one task', () => {
         ]
     }
 
-    const endState = taskReducer(startState, changeTitleTask('Хирург', '2', todoList2))
+    const endState = taskReducer(startState, changeTitleTaskAC('Хирург', '2', todoList2))
 
     expect(endState[todoList2][1].title).toBe('Хирург')
     expect(endState[todoList1][1].title).toBe('JS')

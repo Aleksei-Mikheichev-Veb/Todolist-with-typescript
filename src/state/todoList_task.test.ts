@@ -1,6 +1,6 @@
 import {taskReducer} from "./taskReducer";
 import {addTodoListAC, todoListReducer} from "./todoListReducer";
-import {TodoListType} from "../App";
+import {TodoListType} from "../AppWithReducer";
 
 test('id new todolist should equal in task reducer and todolist reducer', () => {
     const startStateTask = {}

@@ -3,7 +3,7 @@ import {
     todoListReducer
 } from "./todoListReducer";
 import {v1} from "uuid";
-import {TodoListType} from "../App";
+import {TodoListType} from "../AppWithReducer";
 
 
 
@@ -21,7 +21,7 @@ test('todoList reducer should remove one todoList', () => {
     expect(endState.length).toBe(2)
 })
 
-test('todolist reducer should add one todolist to the end', () => {
+test('todolist reducer should add one todolist to the start', () => {
     const todoList1 = v1()
     const todoList2 = v1()
     const todoList3 = v1()
@@ -34,8 +34,8 @@ test('todolist reducer should add one todolist to the end', () => {
     const endState = todoListReducer(startState, addTodoListAC('new title') )
 
     expect(endState.length).toBe(4)
-    expect(endState[3].title).toBe('new title')
-    expect(endState[3].filter).toBe('all')
+    expect(endState[0].title).toBe('new title')
+    expect(endState[0].filter).toBe('all')
 })
 
 test('todolist reducer should change filter only one todolist', () => {

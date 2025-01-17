@@ -1,4 +1,4 @@
-import {TaskInTodoListType} from "../App";
+import {TaskInTodoListType} from "../AppWithReducer";
 import {v1} from "uuid";
 import {ActionAddTodoListType, ActionRemoveTodoListType} from "./todoListReducer";
 
@@ -50,7 +50,6 @@ export const taskReducer = (state: TaskInTodoListType, action:ActionsType) => {
             return {...state, [action.todoListId]: newTodoList }
         }
         case 'ADD_TODOLIST': {
-
             return {[action.todoListId]: [], ...state}
         }
         case "REMOVE_TODOLIST": {
@@ -68,9 +67,9 @@ export const addTaskAC = (title:string, todoListId:string):ActionAddTaskType => 
 export const removeTaskAC = (taskId:string, todoListId:string):ActionRemoveTaskType => ({
     type:"REMOVE_TASK", taskId, todoListId
 })
-export const toggleCheckboxTask = (taskId:string, todoListId: string):ActionToggleCheckboxTaskType => ({
+export const toggleCheckboxTaskAC = (taskId:string, todoListId: string):ActionToggleCheckboxTaskType => ({
     type:"TOGGLE_CHECKBOX_TASK", taskId, todoListId
 })
-export const changeTitleTask = (title:string, taskId:string, todoListId:string): ActionChangeTitleTaskType => ({
+export const changeTitleTaskAC = (title:string, todoListId:string, taskId:string): ActionChangeTitleTaskType => ({
     type:"CHANGE_TITLE_TASK", title, taskId, todoListId
 })

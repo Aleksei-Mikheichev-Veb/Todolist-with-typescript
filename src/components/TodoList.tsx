@@ -1,5 +1,5 @@
 import React from 'react';
-import {FilterType} from "../App";
+import {FilterType} from "../AppWithReducer";
 import './../App.css'
 import {AddItemForm} from "./AddItemForm";
 import EditableValue from "./EditableValue";
@@ -26,12 +26,12 @@ type PropsType = {
 
 const TodoList = (props:PropsType) => {
 
-
     const onAllClickHandler = () => {props.setFilterTask('all', props.id)}
     const onActiveClickHandler = () => {props.setFilterTask('active',props.id)}
     const onCompletedClickHandler = () => {props.setFilterTask('completed', props.id)}
 
     const addTask = (title:string) => {
+
         props.addTask(title, props.id)
     }
     const onClickRemoveTodoList = () => {
