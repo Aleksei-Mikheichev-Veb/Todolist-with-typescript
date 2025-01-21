@@ -31,7 +31,7 @@ const EditableValue = (props:PropsType) => {
 
     return (<>
             {isSpan
-                ? <span onClick={onChangeToInput}>{props.text}</span>
+                ? <span onDoubleClick={onChangeToInput}>{props.text}</span>
                 : <input type="text"
                          autoFocus
                          value={inputValue}

@@ -1,9 +1,12 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import {useDispatch} from "react-redux";
+import {addTodoListAC} from "../state/todoListReducer";
 
-type PropsAddItemFormType = {
-    addTask: (title: string) => void;
+type AddItemFormType = {
+    addItem: (title:string) => void;
 }
-export const AddItemForm = (props: PropsAddItemFormType) => {
+
+export const AddItemForm = (props:AddItemFormType) => {
     const [valueInput, setValueInput] = useState('')
     const [errorTextInput, setErrorTextInput] = useState(false)
 
@@ -13,13 +16,13 @@ export const AddItemForm = (props: PropsAddItemFormType) => {
     }
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
-            props.addTask(valueInput)
+            props.addItem(valueInput)
             setValueInput('')
         }
     }
     const addNewTask = () => {
         if (valueInput) {
-            props.addTask(valueInput)
+            props.addItem(valueInput)
             setValueInput('')
         } else {
             setErrorTextInput(true)

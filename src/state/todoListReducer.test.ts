@@ -1,9 +1,8 @@
 import {
-    ActionChangeTitleTodoList, addTodoListAC, changeFilterTodoListAC, changeTitleTodoListAC, removeTodoListAC,
-    todoListReducer
+    addTodoListAC, changeFilterTodoListAC, changeTitleTodoListAC, removeTodoListAC,
+    todoListReducer, TodoListType
 } from "./todoListReducer";
 import {v1} from "uuid";
-import {TodoListType} from "../AppWithReducer";
 
 
 
@@ -64,7 +63,7 @@ test('todolist reducer should change title only one todolist', () => {
     ];
 
 
-    const endState = todoListReducer(startState, changeTitleTodoListAC(todoList3,'new title' ))
+    const endState = todoListReducer(startState, changeTitleTodoListAC('new title',todoList3 ))
 
     expect(endState[2].title).toBe('new title')
     expect(endState[2].filter).toBe('all')

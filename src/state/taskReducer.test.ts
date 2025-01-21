@@ -132,7 +132,7 @@ test('task reducer should change title of one task', () => {
         ]
     }
 
-    const endState = taskReducer(startState, changeTitleTaskAC('Хирург', '2', todoList2))
+    const endState = taskReducer(startState, changeTitleTaskAC('Хирург', todoList2, '2'))
 
     expect(endState[todoList2][1].title).toBe('Хирург')
     expect(endState[todoList1][1].title).toBe('JS')
