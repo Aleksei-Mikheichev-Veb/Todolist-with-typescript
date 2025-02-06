@@ -18,7 +18,7 @@ import {useActions} from "./hooks/useAction";
 function AppWithRedux() {
     const dispatch = useDispatch()
     const todoLists = useSelector<AppRootType, Array<TodoListType>>(state => state.todoLists)
-    const {getTodoListsThunk, createNewTodoListThunk} = useActions()
+    // const {getTodoListsThunk, createNewTodoListThunk} = useActions()
     useEffect(() => {
         getTodoListsThunk()
         // dispatch(getTodoListsThunk())
@@ -27,7 +27,7 @@ function AppWithRedux() {
     return (
         <div className="App">
             <AddItemForm addItem={(title:string) => {
-                createNewTodoListThunk(title)
+                // createNewTodoListThunk(title)
             }}/>
             <div className='todo_lists'>
                 {todoLists.map(tl => {

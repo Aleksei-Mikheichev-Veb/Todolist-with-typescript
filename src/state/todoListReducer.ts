@@ -19,9 +19,9 @@ export type TodoListType = {
     filter: FilterType
 }
 
-const todolist1 = v1();
-const todolist2 = v1();
-const todolist3 = v1();
+// const todolist1 = v1();
+// const todolist2 = v1();
+// const todolist3 = v1();
 const initialState:Array<TodoListType> = [
     // {id: todoList1, title: 'Study', filter: 'all'},
     // {id: todoList2, title: 'Book', filter: 'active'},
@@ -66,7 +66,7 @@ export const changeFilterTodoListAC = (idTodolist:string, filter:FilterType): Ac
 
 
 export const getTodoListsThunk = (): ThunkAction<Promise<void>, AppRootType, unknown, ActionType> => {
-    return async (dispatch:Dispatch<ActionTypeTodoList>) => {
+    return async (dispatch:Dispatch) => {
         const todoLists = await Api.getTodoLists()
         dispatch(addTodoListsFromApiAC(todoLists))
     }

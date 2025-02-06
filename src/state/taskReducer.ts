@@ -1,6 +1,7 @@
 import {v1} from "uuid";
-import {ActionAddTodoListType, ActionRemoveTodoListType, todoList1, todoList2, todoList3} from "./todoListReducer";
+// import {ActionAddTodoListType, ActionRemoveTodoListType, todoList1, todoList2, todoList3} from "./todoListReducer";
 import {TaskType} from "../components/TodoList";
+import {ActionAddTodoListType, ActionRemoveTodoListType} from "../types/typesTodoListActions";
 
 export type TaskInTodoListType = {
     [key:string]: Array<TaskType>

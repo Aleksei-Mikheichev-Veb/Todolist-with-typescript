@@ -164,7 +164,7 @@ test('when added new todoList task reducer should add new property with array', 
         ]
     }
 
-    const endState = taskReducer(startState, addTodoListAC('new title'))
+    const endState = taskReducer(startState, addTodoListAC('new title', 'some id'))
 
     const keys = Object.keys(endState)
     const newKey = keys.find(k => k != todoList1 && k != todoList2 && k != todoList1)

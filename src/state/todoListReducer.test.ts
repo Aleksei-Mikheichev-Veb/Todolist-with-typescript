@@ -30,7 +30,7 @@ test('todolist reducer should add one todolist to the start', () => {
         {id: todoList3, title: 'Мои таски', filter: 'all'},
     ];
 
-    const endState = todoListReducer(startState, addTodoListAC('new title') )
+    const endState = todoListReducer(startState, addTodoListAC('new title', 'some id') )
 
     expect(endState.length).toBe(4)
     expect(endState[0].title).toBe('new title')

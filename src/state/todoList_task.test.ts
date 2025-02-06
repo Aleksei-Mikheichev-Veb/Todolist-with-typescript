@@ -5,7 +5,7 @@ test('id new todolist should equal in task reducer and todolist reducer', () => 
     const startStateTask = {}
     const startStateTodoList: Array<TodoListType> = []
 
-    const action = addTodoListAC('new task')
+    const action = addTodoListAC('new task', 'some id')
     const endStateTask = taskReducer(startStateTask, action)
     const endStateTodoList = todoListReducer(startStateTodoList, action)
 
