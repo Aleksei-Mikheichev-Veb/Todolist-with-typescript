@@ -27,7 +27,7 @@ type ActionChangeTitleTaskType = {
     taskId:string;
     todoListId:string;
 }
-type ActionsType = ActionAddTaskType | ActionRemoveTaskType | ActionToggleCheckboxTaskType |
+export type ActionsTypeTasks = ActionAddTaskType | ActionRemoveTaskType | ActionToggleCheckboxTaskType |
     ActionChangeTitleTaskType | ActionAddTodoListType | ActionRemoveTodoListType;
 
 const initialState = {
@@ -56,7 +56,7 @@ const initialState = {
     // ]
 }
 
-export const taskReducer = (state: TaskInTodoListType = initialState, action:ActionsType) => {
+export const taskReducer = (state: TaskInTodoListType = initialState, action:ActionsTypeTasks) => {
     switch (action.type) {
         case 'ADD_TASK' : {
             const newTask = {id:v1(), title: action.title, isDone: false }
