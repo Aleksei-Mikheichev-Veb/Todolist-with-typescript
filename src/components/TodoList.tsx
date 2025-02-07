@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './../App.css'
 import {AddItemForm} from "./AddItemForm";
 import EditableValue from "./EditableValue";
 import {
     addTaskAC,
-    changeTitleTaskAC,
+    changeTitleTaskAC, getTasksThunk,
     removeTaskAC,
     TaskInTodoListType,
     toggleCheckboxTaskAC
@@ -12,11 +12,13 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {changeFilterTodoListAC, changeTitleTodoListAC, FilterType, removeTodoListAC} from "../state/todoListReducer";
 import {AppRootType} from "../state/store";
+import {useActions} from "../hooks/useAction";
+import TasksList from "./TasksList";
 
 export type TaskType = {
     id:string;
     title:string;
-    isDone:boolean;
+    completed:boolean;
 }
 
 type PropsType = {
@@ -26,29 +28,34 @@ type PropsType = {
 }
 
 const TodoList = (props:PropsType) => {
-    const dispatch = useDispatch()
-    const tasksInTodoList = useSelector<AppRootType, Array<TaskType>>(state => state.tasks[props.id])
-
+    const {getTasksThunk, changeFilterTodoListAC,removeTodoListAC,
+        changeTitleTodoListAC, changeTitleTaskAC,addTaskAC } = useActions()
+    const tasksInTodoList = useSelector<AppRootType, Array<TaskType>>(state => {
+        return state.tasks[props.id]
+    })
     let taskToDisplay = tasksInTodoList;
     if (props.filter === 'active') {
-        taskToDisplay = tasksInTodoList.filter(task => !task.isDone)
+        taskToDisplay = tasksInTodoList.filter(task => !task.completed)
     } else if (props.filter === 'completed') {
-        taskToDisplay = tasksInTodoList.filter(task => task.isDone)
+        taskToDisplay = tasksInTodoList.filter(task => task.completed)
     }
 
     const onChangeFilterHandler = (filter:FilterType) => {
-        dispatch(changeFilterTodoListAC(props.id, filter))
+        changeFilterTodoListAC(props.id, filter)
     }
 
     const onClickRemoveTodoList = () => {
-        dispatch(removeTodoListAC(props.id))
+        removeTodoListAC(props.id)
     }
     const changeTodoListTitle = (newValue:string) => {
-        dispatch(changeTitleTodoListAC(newValue, props.id))
+        changeTitleTodoListAC(newValue, props.id)
     }
     const changeTask = (newValue:string, idTask:string) => {
-        dispatch(changeTitleTaskAC(newValue, props.id, idTask))
+        changeTitleTaskAC(newValue, props.id, idTask)
     }
+    useEffect(() => {
+        getTasksThunk(props.id)
+    },[props.id])
     return (
         <section>
             <div className="title">
@@ -56,25 +63,10 @@ const TodoList = (props:PropsType) => {
                 <button onClick={onClickRemoveTodoList}>x</button>
             </div>
             <AddItemForm addItem={(title:string) => {
-                dispatch(addTaskAC(title, props.id))
+                addTaskAC(title, props.id)
             }}/>
-            <div className="tasks">
-                <ul className='item_list'>
-                    {taskToDisplay.map(task => {
-                        const removeCurrentTask = () => {
-                            dispatch(removeTaskAC(task.id, props.id))
-                        }
-                        const onHandleTask = () => {
-                            dispatch(toggleCheckboxTaskAC(task.id, props.id))
-                        }
-                        return <li key={task.id}  className={task.isDone ? 'complete_task' : ''}>
-                            <input type="checkbox" onChange={onHandleTask} checked={task.isDone}/>
-                            <EditableValue text={task.title} changeTask={changeTask} id={task.id}/>
-                            <button onClick={removeCurrentTask}>x</button>
-                        </li>
-                    })}
-                </ul>
-            </div>
+            {taskToDisplay && <TasksList taskToDisplay={taskToDisplay} changeTask={changeTask} id={props.id}/>}
+
             <div className="buttons">
                 <button className={props.filter == 'all' ? 'active_button' : ''} onClick={() => onChangeFilterHandler('all')}>All</button>
                 <button className={props.filter == 'active' ? 'active_button' : ''} onClick={() => onChangeFilterHandler('active')}>Active</button>
@@ -85,3 +77,5 @@ const TodoList = (props:PropsType) => {
 };
 
 export default TodoList;
+
+

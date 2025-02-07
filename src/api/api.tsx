@@ -9,12 +9,20 @@ const instance = axios.create({
 })
 
 export const Api = {
-    getTodoLists() {
-        return instance.get('todo-lists' )
-            .then(res => res.data)
+    todoList:{
+        getTodoLists() {
+            return instance.get('todo-lists' )
+                .then(res => res.data)
+        },
+        createTodoList(title:string) {
+            console.log(title)
+            return instance.post('todo-lists', {title: title} )
+                .then(res => res.data.data.data.item)
+        }
     },
-    createTodoList(title:string) {
-        return instance.post('todo-list', title )
-            .then(res => res.data.item)
+    tasks: {
+        getTasks(todoListId:string){
+            return instance.get(`todo-lists/${todoListId}/tasks`).then(res => res.data.items)
+        }
     }
 }

@@ -1,6 +1,4 @@
-// import {FilterType, TodoListType} from "../AppWithReducer";
-import {v1} from "uuid";
-import {Action, Dispatch} from "redux";
+import { Dispatch} from "redux";
 import {Api} from "../api/api";
 import {AppRootType} from "./store";
 import {ThunkAction} from "redux-thunk";
@@ -19,9 +17,6 @@ export type TodoListType = {
     filter: FilterType
 }
 
-// const todolist1 = v1();
-// const todolist2 = v1();
-// const todolist3 = v1();
 const initialState:Array<TodoListType> = [
     // {id: todoList1, title: 'Study', filter: 'all'},
     // {id: todoList2, title: 'Book', filter: 'active'},
@@ -67,13 +62,13 @@ export const changeFilterTodoListAC = (idTodolist:string, filter:FilterType): Ac
 
 export const getTodoListsThunk = (): ThunkAction<Promise<void>, AppRootType, unknown, ActionType> => {
     return async (dispatch:Dispatch) => {
-        const todoLists = await Api.getTodoLists()
+        const todoLists = await Api.todoList.getTodoLists()
         dispatch(addTodoListsFromApiAC(todoLists))
     }
 }
-export const createNewTodoListThunk = (title:string) => {
+export const createNewTodoListThunk = (title:string): ThunkAction<Promise<void>, AppRootType, unknown, ActionType> => {
     return async (dispatch:Dispatch) => {
-        const newTodoList = await Api.createTodoList(title)
+        const newTodoList = await Api.todoList.createTodoList(title)
         dispatch(addTodoListAC(newTodoList.title, newTodoList.id))
     }
 }

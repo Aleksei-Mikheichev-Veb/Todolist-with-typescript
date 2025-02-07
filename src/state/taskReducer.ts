@@ -1,66 +1,55 @@
 import {v1} from "uuid";
-// import {ActionAddTodoListType, ActionRemoveTodoListType, todoList1, todoList2, todoList3} from "./todoListReducer";
 import {TaskType} from "../components/TodoList";
 import {ActionAddTodoListType, ActionRemoveTodoListType} from "../types/typesTodoListActions";
+import {Dispatch} from "redux";
+import {Api} from "../api/api";
+import {
+    ActionAddTaskType, ActionChangeTitleTaskType,
+    ActionRemoveTaskType,
+    ActionsTypeTasks,
+    ActionToggleCheckboxTaskType
+} from "../types/typesTaskActions";
 
 export type TaskInTodoListType = {
     [key:string]: Array<TaskType>
 }
 
-type ActionAddTaskType = {
-    type: 'ADD_TASK';
-    todoListId: string;
-    title:string
-}
-type ActionRemoveTaskType = {
-    type: 'REMOVE_TASK';
-    todoListId:string;
-    taskId:string
-}
-type ActionToggleCheckboxTaskType = {
-    type: 'TOGGLE_CHECKBOX_TASK';
-    taskId:string;
-    todoListId:string;
-}
-type ActionChangeTitleTaskType = {
-    type: 'CHANGE_TITLE_TASK';
-    title:string;
-    taskId:string;
-    todoListId:string;
-}
-export type ActionsTypeTasks = ActionAddTaskType | ActionRemoveTaskType | ActionToggleCheckboxTaskType |
-    ActionChangeTitleTaskType | ActionAddTodoListType | ActionRemoveTodoListType;
-
 const initialState = {
     // [todoList1]: [
-    //     {id: v1(), title: 'HTML + CSS', isDone: true},
-    //     {id: v1(), title: 'JS', isDone: true},
-    //     {id: v1(), title: 'React', isDone: false},
-    //     {id: v1(), title: 'Typescript', isDone: false},
+    //     {id: v1(), title: 'HTML + CSS', completed: true},
+    //     {id: v1(), title: 'JS', completed: true},
+    //     {id: v1(), title: 'React', completed: false},
+    //     {id: v1(), title: 'Typescript', completed: false},
     // ],
     // [todoList2]: [
-    //     {id: v1(), title: 'Ученик', isDone: false},
-    //     {id: v1(), title: 'как закалялась сталь', isDone: false},
-    //     {id: v1(), title: 'Внутри убийцы', isDone: true},
+    //     {id: v1(), title: 'Ученик', completed: false},
+    //     {id: v1(), title: 'как закалялась сталь', completed: false},
+    //     {id: v1(), title: 'Внутри убийцы', completed: true},
     // ],
     // [todoList3]: [
-    //     {id: v1(), title: 'Вынести добавление тасок отдельно', isDone: true},
-    //     {id: v1(), title: 'Форма добавления todolist ', isDone: true},
-    //     {id: v1(), title: 'чтоб в инпуте был текс при даблклике', isDone: true},
-    //     {id: v1(), title: 'попробовать material UI', isDone: false},
-    //     {id: v1(), title: 'написать тесты и сделать reducer ', isDone: true},
-    //     {id: v1(), title: 'написать остальные функции вредусер ', isDone: true},
-    //     {id: v1(), title: 'добавить в удаление и добавление листа, чтобы удалял и там и там ', isDone: true},
-    //     {id: v1(), title: 'сделать state на usereducer ', isDone: false},
-    //     {id: v1(), title: 'сделать state на redux  ', isDone: false},
-    //     {id: v1(), title: 'докомпозировать app. вынестип лишнее внутрь  ', isDone: false},
+    //     {id: v1(), title: 'Вынести добавление тасок отдельно', completed: true},
+    //     {id: v1(), title: 'Форма добавления todolist ', completed: true},
+    //     {id: v1(), title: 'чтоб в инпуте был текс при даблклике', completed: true},
+    //     {id: v1(), title: 'попробовать material UI', completed: false},
+    //     {id: v1(), title: 'написать тесты и сделать reducer ', completed: true},completed
+    //     {id: v1(), title: 'написать остальные функции вредусер ', completed: true},
+    //     {id: v1(), title: 'добавить в удаление и добавление листа, чтобы удалял и там и там ', completed: true},
+    //     {id: v1(), title: 'сделать state на usereducer ', completed: false},
+    //     {id: v1(), title: 'сделать state на redux  ', completed: false},
+    //     {id: v1(), title: 'докомпозировать app. вынестип лишнее внутрь  ', completed: false},
     // ]
 }
 
 export const taskReducer = (state: TaskInTodoListType = initialState, action:ActionsTypeTasks) => {
     switch (action.type) {
+        case 'ADD_TASKS_IN_TODOLISTS' : {
+            const tasks = action.tasks.map( task => {
+                return {id: task.id, title: task.title, completed: false}
+            })
+            return {...state,[action.todoListId]: tasks}
+        }
         case 'ADD_TASK' : {
-            const newTask = {id:v1(), title: action.title, isDone: false }
+            const newTask = {id:v1(), title: action.title, completed: false }
             const newTodoList = [...state[action.todoListId], newTask]
             return {...state, [action.todoListId]: newTodoList}
         }
@@ -70,7 +59,7 @@ export const taskReducer = (state: TaskInTodoListType = initialState, action:Act
         }
         case "TOGGLE_CHECKBOX_TASK": {
             const newTodoList = state[action.todoListId].map(task => {
-                return task.id == action.taskId ? {...task, isDone: !task.isDone} : task
+                return task.id == action.taskId ? {...task, completed: !task.completed} : task
             })
             return {...state, [action.todoListId]: newTodoList }
         }
@@ -92,6 +81,7 @@ export const taskReducer = (state: TaskInTodoListType = initialState, action:Act
     }
 }
 
+export const addTasksInTodoListAC = (tasks:any[], todoListId:string) => ({type: 'ADD_TASKS_IN_TODOLISTS', tasks, todoListId})
 export const addTaskAC = (title:string, todoListId:string):ActionAddTaskType => ({
     type:"ADD_TASK", title, todoListId
 })
@@ -104,3 +94,10 @@ export const toggleCheckboxTaskAC = (taskId:string, todoListId: string):ActionTo
 export const changeTitleTaskAC = (title:string, todoListId:string, taskId:string): ActionChangeTitleTaskType => ({
     type:"CHANGE_TITLE_TASK", title, taskId, todoListId
 })
+
+export const getTasksThunk = (todoListId:string) => {
+    return async (dispatch:Dispatch) => {
+        const tasks = await Api.tasks.getTasks(todoListId)
+        dispatch(addTasksInTodoListAC(tasks, todoListId))
+    }
+}
