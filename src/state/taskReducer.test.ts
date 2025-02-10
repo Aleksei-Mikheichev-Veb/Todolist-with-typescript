@@ -29,7 +29,7 @@ test('task reducer should add one task', () => {
         ]
     }
 
-    const endState = taskReducer(startState, addTaskAC('new Title',todoList2))
+    const endState = taskReducer(startState, addTaskAC('new Title','id task', todoList2))
 
     expect(endState[todoList1].length).toBe(4)
     expect(endState[todoList3].length).toBe(6)

@@ -10,7 +10,6 @@ import { useSelector} from "react-redux";
 import {AppRootType} from "./state/store";
 import {useEffect} from "react";
 import {useActions} from "./hooks/useAction";
-import {log} from "util";
 
 
 function AppWithRedux() {
@@ -20,7 +19,7 @@ function AppWithRedux() {
     useEffect(() => {
         getTodoListsThunk()
     }, [])
-
+    console.log('in app')
     return (
         <div className="App">
             <AddItemForm addItem={(title:string) => {

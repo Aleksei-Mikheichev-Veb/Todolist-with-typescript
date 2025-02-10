@@ -1,6 +1,4 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
-import {useDispatch} from "react-redux";
-import {addTodoListAC} from "../state/todoListReducer";
 
 type AddItemFormType = {
     addItem: (title:string) => void;

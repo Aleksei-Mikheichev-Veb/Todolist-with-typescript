@@ -1,5 +1,5 @@
 import React from 'react';
-import {removeTaskAC, toggleCheckboxTaskAC} from "../state/taskReducer";
+import {deleteTaskThunk, removeTaskAC, toggleCheckboxTaskAC} from "../state/taskReducer";
 import EditableValue from "./EditableValue";
 import {useActions} from "../hooks/useAction";
 import {TaskType} from "./TodoList";
@@ -11,13 +11,14 @@ type PropsType = {
 }
 
 const TasksList = (props:PropsType) => {
-    const {removeTaskAC, toggleCheckboxTaskAC} = useActions()
+    const {removeTaskAC, toggleCheckboxTaskAC,deleteTaskThunk} = useActions()
+    // console.log('in tasks')
     return (
         <div className="tasks">
             <ul className='item_list'>
                 {props.taskToDisplay.map(task => {
                     const removeCurrentTask = () => {
-                        removeTaskAC(task.id, props.id)
+                        deleteTaskThunk(task.id, props.id)
                     }
                     const onHandleTask = () => {
                         toggleCheckboxTaskAC(task.id, props.id)

@@ -3,7 +3,8 @@ import {ActionAddTodoListType, ActionRemoveTodoListType} from "./typesTodoListAc
 export type ActionAddTaskType = {
     type: 'ADD_TASK';
     todoListId: string;
-    title:string
+    title:string;
+    id:string;
 }
 export type ActionRemoveTaskType = {
     type: 'REMOVE_TASK';

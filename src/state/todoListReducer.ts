@@ -1,8 +1,5 @@
 import { Dispatch} from "redux";
 import {Api} from "../api/api";
-import {AppRootType} from "./store";
-import {ThunkAction} from "redux-thunk";
-import {ActionType} from "../types/types";
 import {
     ActionAddTodoListsFromApi,
     ActionAddTodoListType, ActionChangeFilterTodoList, ActionChangeTitleTodoList, ActionRemoveTodoListType,
@@ -54,21 +51,33 @@ export const todoListReducer = (state:Array<TodoListType> = initialState , actio
 
 export const addTodoListsFromApiAC = (todoLists:TodoListFromApi):ActionAddTodoListsFromApi => ({type:'ADD_TODOLISTS_FROM_API', todoLists})
 export const addTodoListAC = (title:string, id:string): ActionAddTodoListType => ({type:'ADD_TODOLIST', title: title, todoListId:id});
-// export const addTodoListAC = (title:string): ActionAddTodoListType => ({type:'ADD_TODOLIST', title: title, todoListId:v1()});
 export const removeTodoListAC = (idTodolist:string): ActionRemoveTodoListType => ({type: 'REMOVE_TODOLIST', id: idTodolist});
 export const changeTitleTodoListAC = (title: string, idTodolist:string): ActionChangeTitleTodoList => ({type: 'CHANGE_TITLE_TODOLIST', id: idTodolist, title:title});
 export const changeFilterTodoListAC = (idTodolist:string, filter:FilterType): ActionChangeFilterTodoList => ({type: 'CHANGE_FILTER_TODOLIST', id: idTodolist, filter:filter});
 
 
-export const getTodoListsThunk = (): ThunkAction<Promise<void>, AppRootType, unknown, ActionType> => {
+export const getTodoListsThunk = () => {
     return async (dispatch:Dispatch) => {
         const todoLists = await Api.todoList.getTodoLists()
+        console.log(todoLists)
         dispatch(addTodoListsFromApiAC(todoLists))
     }
 }
-export const createNewTodoListThunk = (title:string): ThunkAction<Promise<void>, AppRootType, unknown, ActionType> => {
+export const createNewTodoListThunk = (title:string) => {
     return async (dispatch:Dispatch) => {
         const newTodoList = await Api.todoList.createTodoList(title)
         dispatch(addTodoListAC(newTodoList.title, newTodoList.id))
+    }
+}
+export const changeTitleTodoListThunk = (title:string, todoListId:string) => {
+    return async (dispatch:Dispatch) => {
+        const result = await Api.todoList.changeTitleTodoList(todoListId, title)
+        console.log(result)
+        dispatch(changeTitleTodoListAC(title, todoListId))
+    }
+}
+export const deleteTodoListThunk = (todoListId:string) => {
+    return async (dispatch:Dispatch) => {await Api.todoList.deleteTodoList(todoListId)
+        dispatch(removeTodoListAC(todoListId))
     }
 }

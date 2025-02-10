@@ -10,7 +10,13 @@ import {
     toggleCheckboxTaskAC
 } from "../state/taskReducer";
 import {useDispatch, useSelector} from "react-redux";
-import {changeFilterTodoListAC, changeTitleTodoListAC, FilterType, removeTodoListAC} from "../state/todoListReducer";
+import {
+    changeFilterTodoListAC,
+    changeTitleTodoListAC, changeTitleTodoListThunk,
+    deleteTodoListThunk,
+    FilterType,
+    removeTodoListAC
+} from "../state/todoListReducer";
 import {AppRootType} from "../state/store";
 import {useActions} from "../hooks/useAction";
 import TasksList from "./TasksList";
@@ -28,11 +34,13 @@ type PropsType = {
 }
 
 const TodoList = (props:PropsType) => {
-    const {getTasksThunk, changeFilterTodoListAC,removeTodoListAC,
-        changeTitleTodoListAC, changeTitleTaskAC,addTaskAC } = useActions()
+    const {getTasksThunk, changeFilterTodoListAC,
+        changeTitleTodoListThunk, changeTitleTaskAC,createNewTaskThunk, deleteTodoListThunk } = useActions()
     const tasksInTodoList = useSelector<AppRootType, Array<TaskType>>(state => {
+        // console.log(state)
         return state.tasks[props.id]
     })
+    // console.log('in todolist')
     let taskToDisplay = tasksInTodoList;
     if (props.filter === 'active') {
         taskToDisplay = tasksInTodoList.filter(task => !task.completed)
@@ -45,10 +53,10 @@ const TodoList = (props:PropsType) => {
     }
 
     const onClickRemoveTodoList = () => {
-        removeTodoListAC(props.id)
+        deleteTodoListThunk(props.id)
     }
     const changeTodoListTitle = (newValue:string) => {
-        changeTitleTodoListAC(newValue, props.id)
+        changeTitleTodoListThunk(newValue, props.id)
     }
     const changeTask = (newValue:string, idTask:string) => {
         changeTitleTaskAC(newValue, props.id, idTask)
@@ -63,7 +71,7 @@ const TodoList = (props:PropsType) => {
                 <button onClick={onClickRemoveTodoList}>x</button>
             </div>
             <AddItemForm addItem={(title:string) => {
-                addTaskAC(title, props.id)
+                createNewTaskThunk(title, props.id)
             }}/>
             {taskToDisplay && <TasksList taskToDisplay={taskToDisplay} changeTask={changeTask} id={props.id}/>}
 
