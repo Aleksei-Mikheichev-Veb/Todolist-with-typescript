@@ -1,8 +1,7 @@
-import {combineReducers, createStore, applyMiddleware, Dispatch,} from 'redux'
+import {combineReducers, createStore, applyMiddleware} from 'redux'
 import {todoListReducer} from "./todoListReducer";
 import {taskReducer} from "./taskReducer";
-import {thunk, ThunkAction} from "redux-thunk";
-import {ActionType} from "../types/types";
+import {thunk} from "redux-thunk";
 
 const rootReducer = combineReducers({
     todoLists: todoListReducer,

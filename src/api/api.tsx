@@ -36,7 +36,6 @@ export const Api = {
                 })
         },
         deleteTask(taskId:string, todoListId:string){
-            console.log(taskId,todoListId  )
             return instance.delete(`todo-lists//tasks/${taskId}`).then(res => res.data)
         }
     }

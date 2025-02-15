@@ -1,8 +1,10 @@
 import React from 'react';
-import {deleteTaskThunk, removeTaskAC, toggleCheckboxTaskAC} from "../state/taskReducer";
+import {deleteTaskThunk,toggleCheckboxTaskAC} from "../state/taskReducer";
 import EditableValue from "./EditableValue";
 import {useActions} from "../hooks/useAction";
 import {TaskType} from "./TodoList";
+import {Checkbox, IconButton} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 type PropsType = {
     changeTask: (newValue:string, idTask:string) => void;
@@ -11,8 +13,7 @@ type PropsType = {
 }
 
 const TasksList = (props:PropsType) => {
-    const {removeTaskAC, toggleCheckboxTaskAC,deleteTaskThunk} = useActions()
-    // console.log('in tasks')
+    const { toggleCheckboxTaskAC,deleteTaskThunk} = useActions()
     return (
         <div className="tasks">
             <ul className='item_list'>
@@ -24,9 +25,11 @@ const TasksList = (props:PropsType) => {
                         toggleCheckboxTaskAC(task.id, props.id)
                     }
                     return <li key={task.id}  className={task.completed ? 'complete_task' : ''}>
-                        <input type="checkbox" onChange={onHandleTask} checked={task.completed}/>
+                        <Checkbox  onChange={onHandleTask} checked={task.completed}/>
                         <EditableValue text={task.title} changeTask={props.changeTask} id={task.id}/>
-                        <button onClick={removeCurrentTask}>x</button>
+                        <IconButton aria-label="delete" onClick={removeCurrentTask}>
+                            <DeleteIcon />
+                        </IconButton>
                     </li>
                 })}
             </ul>

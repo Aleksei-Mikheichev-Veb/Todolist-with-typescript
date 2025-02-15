@@ -59,7 +59,6 @@ export const changeFilterTodoListAC = (idTodolist:string, filter:FilterType): Ac
 export const getTodoListsThunk = () => {
     return async (dispatch:Dispatch) => {
         const todoLists = await Api.todoList.getTodoLists()
-        console.log(todoLists)
         dispatch(addTodoListsFromApiAC(todoLists))
     }
 }
@@ -72,12 +71,12 @@ export const createNewTodoListThunk = (title:string) => {
 export const changeTitleTodoListThunk = (title:string, todoListId:string) => {
     return async (dispatch:Dispatch) => {
         const result = await Api.todoList.changeTitleTodoList(todoListId, title)
-        console.log(result)
         dispatch(changeTitleTodoListAC(title, todoListId))
     }
 }
 export const deleteTodoListThunk = (todoListId:string) => {
-    return async (dispatch:Dispatch) => {await Api.todoList.deleteTodoList(todoListId)
+    return async (dispatch:Dispatch) => {
+        await Api.todoList.deleteTodoList(todoListId)
         dispatch(removeTodoListAC(todoListId))
     }
 }

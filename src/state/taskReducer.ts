@@ -1,6 +1,4 @@
-import {v1} from "uuid";
 import {TaskType} from "../components/TodoList";
-import {ActionAddTodoListType, ActionRemoveTodoListType} from "../types/typesTodoListActions";
 import {Dispatch} from "redux";
 import {Api} from "../api/api";
 import {
@@ -25,18 +23,6 @@ const initialState = {
     //     {id: v1(), title: 'Ученик', completed: false},
     //     {id: v1(), title: 'как закалялась сталь', completed: false},
     //     {id: v1(), title: 'Внутри убийцы', completed: true},
-    // ],
-    // [todoList3]: [
-    //     {id: v1(), title: 'Вынести добавление тасок отдельно', completed: true},
-    //     {id: v1(), title: 'Форма добавления todolist ', completed: true},
-    //     {id: v1(), title: 'чтоб в инпуте был текс при даблклике', completed: true},
-    //     {id: v1(), title: 'попробовать material UI', completed: false},
-    //     {id: v1(), title: 'написать тесты и сделать reducer ', completed: true},completed
-    //     {id: v1(), title: 'написать остальные функции вредусер ', completed: true},
-    //     {id: v1(), title: 'добавить в удаление и добавление листа, чтобы удалял и там и там ', completed: true},
-    //     {id: v1(), title: 'сделать state на usereducer ', completed: false},
-    //     {id: v1(), title: 'сделать state на redux  ', completed: false},
-    //     {id: v1(), title: 'докомпозировать app. вынестип лишнее внутрь  ', completed: false},
     // ]
 }
 
@@ -88,7 +74,7 @@ export const addTaskAC = (title:string, id:string, todoListId:string):ActionAddT
 export const removeTaskAC = (taskId:string, todoListId:string):ActionRemoveTaskType => ({
     type:"REMOVE_TASK", taskId, todoListId
 })
-    
+
 // Для этих двух случаев api не существует
 export const toggleCheckboxTaskAC = (taskId:string, todoListId: string):ActionToggleCheckboxTaskType => ({
     type:"TOGGLE_CHECKBOX_TASK", taskId, todoListId
@@ -107,14 +93,13 @@ export const getTasksThunk = (todoListId:string) => {
 export const createNewTaskThunk = (title:string, todolistId:string) => {
     return async (dispatch:Dispatch) => {
         const task = await Api.tasks.createTask(title, todolistId)
-        console.log(task)
         dispatch(addTaskAC(task.title,task.id, todolistId))
     }
 }
 
 export const deleteTaskThunk = (taskId:string, todoListId:string) => {
     return async (dispatch:Dispatch) => {
-        const result = await Api.tasks.deleteTask(taskId, todoListId)
+        await Api.tasks.deleteTask(taskId, todoListId)
         dispatch(removeTaskAC(taskId,todoListId))
     }
 }

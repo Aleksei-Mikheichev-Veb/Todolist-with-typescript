@@ -1,29 +1,17 @@
-.App {
-
-  margin: 100px;
-}
-.title{
-  display: flex;
-  align-items: center;
-}
-.todo_lists{
-  display: flex;
-}
-.item_list{
-  list-style: none;
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.complete_task{
-  background: #b9b9b9;
+body {
+    font-family: sans-serif;
+    line-height: 1.5;
 }
-.active_button{
-  background: #fe5900;
-}
-.error{
-  color:red;
-  font-weight: bold;
-}
-.error_input{
-  border:1px solid red;
-  outline: red;
+
+ul,
+ol {
+    list-style: none;
 }

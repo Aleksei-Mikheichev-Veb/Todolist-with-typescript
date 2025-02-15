@@ -1,46 +1,45 @@
-import {ChangeEvent, KeyboardEvent, useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import {TextField} from "@mui/material";
 
 type PropsType = {
-    text:string;
-    changeTask:(newValue:string, idTask:string) => void;
-    id:string
+    text: string;
+    changeTask: (newValue: string, idTask: string) => void;
+    id: string
 }
 
-const EditableValue = (props:PropsType) => {
+const EditableValue = React.memo((props: PropsType) => {
     const [isSpan, setIsSpan] = useState(true)
     const [inputValue, setInputValue] = useState(props.text)
-
-    const handleOnChange = (e:ChangeEvent<HTMLInputElement>) => {
+    const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
         setInputValue(e.target.value)
     }
     const onChangeToInput = () => {
         setIsSpan(false)
     }
-    const onBlurHandlerToSpan = ( ) => {
+    const onBlurHandlerToSpan = () => {
         setIsSpan(true)
         props.changeTask(inputValue, props.id)
-        // setInputValue('')
     }
-    const onKeyPressHandlerToSpan = ( e: KeyboardEvent<HTMLInputElement>) => {
-        if(e.key === 'Enter'){
+    const onKeyPressHandlerToSpan = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
             setIsSpan(true)
             props.changeTask(inputValue, props.id)
-            // setInputValue('')
         }
     }
 
     return (<>
             {isSpan
                 ? <span onClick={onChangeToInput}>{props.text}</span>
-                : <input type="text"
-                         autoFocus
-                         value={inputValue}
-                         onBlur={onBlurHandlerToSpan}
-                         onKeyPress={onKeyPressHandlerToSpan}
-                         onChange={handleOnChange}/>
+                : <TextField
+                    size="small"
+                    autoFocus
+                    value={inputValue}
+                    onBlur={onBlurHandlerToSpan}
+                    onKeyPress={onKeyPressHandlerToSpan}
+                    onChange={handleOnChange}/>
             }
-    </>
+        </>
     )
-}
+})
 
 export default EditableValue
