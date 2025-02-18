@@ -27,4 +27,4 @@ src/
   ├── hooks/        # Вспомогательные хуки
   ├── state/        # Файлы хранилища redux 
   ├── types/        # Типы Actions
-  └── AppWithRedux.js   # Корневой компонент
+  └── AppWithRedux.tsx   # Корневой компонент
